@@ -38,7 +38,7 @@ export default function Favourite() {
      }, [favorites])
 
      const toggleSelection = useCallback((itemId) => {
-          // Cập nhật danh sách các item được chọn
+// Cập nhật danh sách các item được chọn
           setSelectedItems(prev => {
                const newSelected = { ...prev }
                if (newSelected[itemId]) {
@@ -51,10 +51,10 @@ export default function Favourite() {
      }, [])
 
      const toggleSelectionMode = useCallback(() => {
-          // Bật/tắt chế độ chọn nhiều
+// Bật/tắt chế độ chọn nhiều
           setIsSelectionMode(prev => {
                const newMode = !prev
-               // Nếu tắt chế độ chọn, reset lại danh sách chọn
+// Nếu tắt chế độ chọn, reset lại danh sách chọn
                if (!newMode) {
                     setSelectedItems({})
                     setSelectAll(false)
@@ -64,13 +64,13 @@ export default function Favourite() {
      }, [])
 
      const handleSelectAll = useCallback(() => {
-          // Chọn tất cả hoặc bỏ chọn tất cả
+// Chọn tất cả hoặc bỏ chọn tất cả
           if (selectAll) {
-               // Bỏ chọn tất cả
+// Bỏ chọn tất cả
                setSelectedItems({})
                setSelectAll(false)
           } else {
-               // Chọn tất cả item đang hiển thị
+// Chọn tất cả item đang hiển thị
                const newSelectedItems = {}
                filteredItems.forEach(item => {
                     const itemId = item._id || item.id
@@ -83,11 +83,11 @@ export default function Favourite() {
 
      const deleteSelectedItems = useCallback(async () => {
           try {
-               // Kiểm tra xem có item nào được chọn không
+// Kiểm tra xem có item nào được chọn không
                const selectedCount = Object.keys(selectedItems).length
                if (selectedCount === 0) return
 
-               // Hiển thị dialog xác nhận xóa
+// Hiển thị dialog xác nhận xóa
                Alert.alert(
                     "Confirm",
                     `Are you sure you want to deselect ${selectedCount}?`,
@@ -100,13 +100,13 @@ export default function Favourite() {
                               text: "Delete",
                               style: "destructive",
                               onPress: async () => {
-                                   // Xóa các item được chọn
+// Xóa các item được chọn
                                    const newFavorites = { ...favorites }
                                    Object.keys(selectedItems).forEach(itemId => {
                                         delete newFavorites[itemId]
                                    })
 
-                                   // Cập nhật state và lưu vào AsyncStorage
+// Cập nhật state và lưu vào AsyncStorage
                                    setFavorites(newFavorites)
                                    setItems(Object.values(newFavorites))
                                    setSelectedItems({})
@@ -125,21 +125,21 @@ export default function Favourite() {
      const loadFavorites = useCallback(async () => {
           try {
                setLoading(true)
-               // Lấy dữ liệu yêu thích từ AsyncStorage
+// Lấy dữ liệu yêu thích từ AsyncStorage
                const storedFavorites = await AsyncStorage.getItem('favorites')
                if (storedFavorites) {
-                    // Parse dữ liệu và cập nhật state
+// Parse dữ liệu và cập nhật state
                     const parsedFavorites = JSON.parse(storedFavorites)
                     setFavorites(parsedFavorites)
                     const favoriteItemsArray = Object.values(parsedFavorites)
                     setItems(favoriteItemsArray)
 
-                    // Trích xuất danh sách categories từ dữ liệu yêu thích
+// Trích xuất danh sách categories từ dữ liệu yêu thích
                     const allCategories = favoriteItemsArray.map(item => item.brand || 'Unknown')
                     const uniqueCategories = ['All', ...Array.from(new Set(allCategories))]
                     setCategories(uniqueCategories)
                } else {
-                    // Khởi tạo trạng thái mặc định nếu không có dữ liệu
+// Khởi tạo trạng thái mặc định nếu không có dữ liệu
                     setFavorites({})
                     setItems([])
                     setCategories(['All'])
@@ -147,7 +147,7 @@ export default function Favourite() {
                setLoading(false)
           } catch (error) {
                console.error('Error loading favorites:', error)
-               // Xử lý lỗi và set trạng thái mặc định
+// Xử lý lỗi và set trạng thái mặc định
                setFavorites({})
                setItems([])
                setCategories(['All'])
@@ -156,13 +156,13 @@ export default function Favourite() {
      }, [])
 
      useEffect(() => {
-          // Load dữ liệu yêu thích khi component được mount
+// Load dữ liệu yêu thích khi component được mount
           loadFavorites()
      }, [loadFavorites])
 
      useFocusEffect(
           useCallback(() => {
-               // Load lại dữ liệu và reset chế độ chọn khi màn hình được focus
+// Load lại dữ liệu và reset chế độ chọn khi màn hình được focus
                loadFavorites()
                setIsSelectionMode(false)
                setSelectedItems({})
@@ -170,8 +170,8 @@ export default function Favourite() {
           }, [loadFavorites])
      )
 
-     // FUNCTION TO FILTER ITEMS
-     // Lọc dữ liệu hiển thị (hiện tại hiển thị tất cả items)
+// FUNCTION TO FILTER ITEMS
+// Lọc dữ liệu hiển thị (hiện tại hiển thị tất cả items)
      const filteredItems = items
 
      if (loading) {
@@ -185,7 +185,7 @@ export default function Favourite() {
 
      return (
           <View style={styles.screenContainer}>
-               {/* HEADER WITH ACTION BUTTONS */}
+{/* HEADER WITH ACTION BUTTONS */}
                <View style={styles.header}>
                     {items.length > 0 && (
                          <View style={styles.headerActions}>
@@ -229,9 +229,10 @@ export default function Favourite() {
                     )}
                </View>
 
-               {/* ITEM LIST */}
+{/* ITEM LIST */}
                <ScrollView contentContainerStyle={styles.container}>
                     {filteredItems.length > 0 ? (
+// CHANGE FILTER HERE:
                          filteredItems.sort((a, b) => b.percentOff - a.percentOff).map((item) => {
                               const itemId = item._id || item.id
 
@@ -287,9 +288,11 @@ export default function Favourite() {
                                                   </TouchableOpacity>
                                              )}
                                         </View>
-                                        {/* ITEM DETAILS */}
+{/* ITEM DETAILS */}
+{/* NAME: */}                                 
                                         <Text style={styles.name}>{item?.jeName}</Text>
                                         <View style={styles.saleContainer}>
+{/* PRICE: */}
                                              <Text style={styles.saleText}>Sale: {(item?.percentOff * 100).toFixed(0)}%</Text>
                                         </View>
                                    </Pressable>
@@ -297,7 +300,7 @@ export default function Favourite() {
                          })
                     ) : (
                          <View style={styles.emptyContainer}>
-                              {/* EMPTY STATE */}
+{/* EMPTY STATE */}
                               <Text style={styles.emptyText}>No item</Text>
                               <TouchableOpacity
                                    style={styles.browseButton}

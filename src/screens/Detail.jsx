@@ -46,6 +46,7 @@ export default function Detail({ route }) {
 
   return (
     <ScrollView style={styles.container}>
+{/* IMAGE: */}
       <Image
         source={{ uri: item.image }}
         style={styles.image}
@@ -53,6 +54,7 @@ export default function Detail({ route }) {
       />
 
       <View style={styles.content}>
+{/* NAME: */}
         <Text style={[styles.title, { color: item.color[0].toLowerCase() }]}>
           {item.jeName}
         </Text>
@@ -60,6 +62,7 @@ export default function Detail({ route }) {
         <View style={styles.priceRow}>
           <View style={styles.saleTag}>
             <Text style={styles.saleText}>
+{/* PRICE: */}
               Sale {(item.percentOff * 100).toFixed(0)}%
             </Text>
           </View>
@@ -73,16 +76,19 @@ export default function Detail({ route }) {
           </TouchableOpacity>
         </View>
 
-        {/* Thông tin chi tiết */}
+{/* Thông tin chi tiết */}
         <View style={styles.infoContainer}>
+{/* NAME: */}
           <InfoItem label="label" value={'name'} />
-
+{/* BOOLEAN: */}
           <View style={styles.row}>
             <Text style={styles.label}>Boolean</Text>
             <View style={styles.value}>
               {item.stoneStyle ? (
                 <AntDesign name="star" size={20} color="gold" />
-              ) : (
+              ) :
+{/* BOOLEAN FALSE: */ }
+              (
                 <Text>No</Text>
               )}
             </View>

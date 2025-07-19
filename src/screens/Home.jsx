@@ -12,7 +12,7 @@ export default function Home() {
      const [favorites, setFavorites] = useState({})
      const [categories, setCategories] = useState([])
      const [selectedCategory, setSelectedCategory] = useState('All')
-     // STATE SEARCH
+// STATE SEARCH
      const [searchQuery, setSearchQuery] = useState('')
      const [isSearchFocused, setIsSearchFocused] = useState(false)
 
@@ -64,7 +64,7 @@ export default function Home() {
                const result = await response.json()
                setData(result)
 
-               // Lấy tất cả categories từ dữ liệu
+// Lấy tất cả categories từ dữ liệu
                const allCategories = result.map(item => item.brand || 'Unknown')
                const uniqueCategories = ['All', ...Array.from(new Set(allCategories))]
                setCategories(uniqueCategories)
@@ -87,17 +87,17 @@ export default function Home() {
           }, [loadFavorites])
      )
 
-     // FUNCTION SEARCH
+// FUNCTION SEARCH
      const handleSearch = useCallback((text) => {
           setSearchQuery(text)
      }, [])
 
-     // Lọc dữ liệu theo category và từ khóa tìm kiếm
+// Lọc dữ liệu theo category và từ khóa tìm kiếm
      const filteredItems = data.filter(item => {
-          // Kiểm tra xem item có phù hợp với category đã chọn
+// Kiểm tra xem item có phù hợp với category đã chọn (Sửa item.brand)
           const matchesCategory = selectedCategory === 'All' || item.brand === selectedCategory
 
-          // Kiểm tra xem item có chứa từ khóa tìm kiếm
+// Kiểm tra xem item có chứa từ khóa tìm kiếm
           const matchesSearch = !searchQuery ||
                (item.jeName && item.jeName.toLowerCase().includes(searchQuery.toLowerCase()))
 
@@ -115,7 +115,7 @@ export default function Home() {
 
      return (
           <ScrollView contentContainerStyle={styles.container}>
-               {/* SEARCH BAR */}
+{/* SEARCH BAR */}
                {/* <View style={styles.searchContainer}>
                     <View style={[
                          styles.searchInputContainer,
@@ -138,7 +138,7 @@ export default function Home() {
                     </View>
                </View> */}
 
-               {/* CATEGORY FILTER */}
+{/* CATEGORY FILTER */}
                <View style={styles.filterContainer}>
                     {categories.map((category) => (
                          <TouchableOpacity
@@ -158,7 +158,7 @@ export default function Home() {
                     ))}
                </View>
 
-               {/*DISPLAY ITEMS*/}
+{/*DISPLAY ITEMS*/}
                {filteredItems && filteredItems.length > 0 ? (
                     filteredItems.sort((a, b) => b.percentOff - a.percentOff).map((item, index) => {
                          const itemId = item._id || item.id
@@ -188,9 +188,11 @@ export default function Home() {
                                              />
                                         </TouchableOpacity>
                                    </View>
-                                   {/*ITEM DETAILS*/}
+{/*ITEM DETAILS*/}
+{/* NAME: */}
                                    <Text style={styles.name}>{item?.jeName}</Text>
                                    <View style={styles.saleContainer}>
+{/* SALE: */}
                                         <Text style={styles.saleText}>Sale: {(item?.percentOff * 100).toFixed(0)}%</Text>
                                    </View>
                               </Pressable>
